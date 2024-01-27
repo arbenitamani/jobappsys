@@ -35,7 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100vh;
+    height: 98vh;
+   }
 
     .login-left {
         display: flex;
@@ -45,8 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         width: 50%;
         background-color: #f5f5f5; /* Subtle gray background */
         height: 100%;
+    }
 
-        img {
+        .login-left img {
             max-width: 130%; /* Adjust image size */
             height: 100vh; /* Maintain aspect ratio */
           
@@ -65,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
         @keyframes slide-up {
+        
             from {
                 transform: translateY(100%); /* Start from below the container */
                 opacity: 0; /* Start with opacity 0 */
@@ -74,19 +77,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 opacity: 1; /* Fade in */
             }
         }
-
-.text-overlay h1 {
+        
+ .h1 {
     margin-top: 0; /* Remove default margin */
     font-size: 50px; /* Adjust font size */
-    font-weight: 800;
+    font-weight: 900;
 }
 
-.text-overlay p {
+ .p {
     margin-bottom: 0; /* Remove default margin */
     font-size: 18px; /* Adjust font size */
     font-weight: 800;
 }
-    }
+    
 
     .login-right {
         width: 50%;
@@ -97,6 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         flex-direction: column;
         text-align: center;
         background-color: rgba(249,175,18,255);
+    }
 
         .inner-container {
             background-color: #fff; /* White background color */
@@ -104,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 20px; /* Padding for inner container */
             box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
             width: 80%; /* Adjust width as needed */
-
+        }
             
 
             label {
@@ -124,12 +128,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 padding-left: 10px;
                 transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
                 outline: none;
+            }
+
             
                 &:focus {
                     border-color: rgb(156, 158, 255); /* Coral border color on focus */
                     box-shadow: 0 0 5px rgba(45, 133, 234, 0.5); /* Slight shadow on all sides */
                 }
-            }
+            
 
             button {
                 width: 90%; /* Maintain width */
@@ -153,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             p {
                
                 font-size: 14px; /* You can adjust the font size as needed */
-                color: #333; /* Adjust the color as needed */
+                color: white; /* Adjust the color as needed */
                 margin-bottom: 10px; /* Add some margin at the bottom */
               }
 
@@ -172,28 +178,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 font-size: 30px;
                 font-family: 'Oswald', sans-serif;
                 color: #333;
-                // Other styles for the welcome text
             }
         
             .instruction-text {
                 font-size: 15px;
                 color: #666;
                 font-family: 'Oswald', sans-serif;
-                // Other styles for the instruction text
                 padding-bottom: 5%;
             }
-        }
-    }
-}
+    
 
     </style>
 </head>
 <body>
     <div class='login-container'>
         <div class='login-left'>
-            <h1>WorkWise</h1>
-            <p>"Connecting Talent with Opportunity"</p>
-            <img src="jobimg.jpg" alt="Job Image">
+            <div class="text-overlay">
+                  <h1 class="h1">WorkWise</h1>
+            <p class="p">"Connecting Talent with Opportunity"</p>
+            </div>
+          
+            <img src="images/job2.jpg" alt="Job Image">
         </div>
         <div class='login-right'>
             <div class='inner-container'>
