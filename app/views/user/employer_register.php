@@ -31,7 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Execute the statement
         if ($stmt->execute() === TRUE) {
-            $successMessage = "Employer registered successfully";
+            // Redirect to employer profile upon successful registration
+            header("Location: employer_profile.php");
+            exit(); // Terminate script execution after redirect
         } else {
             $errorMessage = "Error: " . $conn->error;
         }

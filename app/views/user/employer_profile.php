@@ -22,14 +22,14 @@ if (!isset($_SESSION['UserID'])) {
     exit();
 }
 
-// Fetch job seeker data from the database
+// Fetch user data from the database
 $userID = $_SESSION['UserID'];
-$sql = "SELECT u.*, j.* FROM users u LEFT JOIN jobseekers j ON u.UserID = j.UserID WHERE u.UserID = ?";
+$sql = "SELECT u.*, e.* FROM users u LEFT JOIN employers e ON u.UserID = e.UserID WHERE u.UserID = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $userID);
 $stmt->execute();
 $result = $stmt->get_result();
-$jobSeekerData = $result->fetch_assoc();
+$userData = $result->fetch_assoc();
 
 // Close statement
 $stmt->close();
@@ -43,7 +43,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Seeker Profile</title>
+    <title>User Profile</title>
     <!-- Add your CSS styles here -->
     <!-- Your CSS styles -->
 </head>
@@ -51,12 +51,13 @@ $conn->close();
     <div class="profile-container">
         <div class="profile-left">
             <div class='text'>
-                <h3>Welcome, <?php echo $jobSeekerData['UserName']; ?></h3>
-                <p>Your Email: <?php echo $jobSeekerData['Email']; ?></p>
-                <p>Your Phone: <?php echo $jobSeekerData['Phone']; ?></p>
-                <!-- Display other job seeker data as needed -->
-                <p>Your First Name: <?php echo $jobSeekerData['FirstName']; ?></p>
-                <p>Your Last Name: <?php echo $jobSeekerData['LastName']; ?></p>
+                <h3>Welcome, <?php echo $userData['UserName']; ?></h3>
+                <p>Your Email: <?php echo $userData['Email']; ?></p>
+              
+                <!-- Display other user data as needed -->
+                <p>Your Company Name: <?php echo $userData['CompanyName']; ?></p>
+                <p>Your Industry: <?php echo $userData['Industry']; ?></p>
+                <p>Your Contact Info: <?php echo $userData['ContactInfo']; ?></p>
             </div>
             <!-- Add more profile information here -->
         </div>
