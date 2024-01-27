@@ -9,10 +9,14 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+
 }
 
 .listnav h2{
     font-size: 50px;
+    color: green;
+    text-transform: uppercase;
+    padding: 20px;
 
 }
 .listnav button{
@@ -43,13 +47,15 @@
 
 .job{
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 600px;
+    gap: 150px;
     background-color: white;
   padding-left: 20px;
   padding-right: 20px;
   cursor: pointer;
   border-radius: 5px;
+  width: 1000px;
   
 }
 .job:hover{
@@ -61,12 +67,11 @@
 .job-left{
     display: flex;
     align-items: center;
-    gap: 50px;
-
+   gap: 30px;
+   width: 35%;
 }
 .job-left img{
     border-radius: 50%;
-    border: 1px solid black;
     width: 60px;
     height: 60px;
     background-color:rgb(103, 156, 103);
@@ -78,3 +83,26 @@
 .job-left p{
     font-size: 18px;
 }
+.job-middle{
+    width: 35%;
+}
+.job-middle h3{
+color: rgb(51, 119, 207);
+font-size: 25px;
+}
+.job-middle p{
+    font-size: 18px;
+    color: rgb(45, 118, 164);
+}
+.job-right{
+    width: 30%;
+}
+.job-right a{
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    background-color: green;
+    padding: 15px;
+    border-radius: 10px;
+}
+
