@@ -119,7 +119,7 @@
         <img src="images/logo.svg" alt='Logo' />
         <ul>
             <li>
-                <a href="./app/views/user/register.php">Login</a>
+                <a href="./app/views/user/login.php">Login</a>
             </li>
             <li>
             <a href="./app/views/user/register.php">Register</a>

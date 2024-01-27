@@ -1,26 +1,42 @@
 <?php
-session_start();
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "jobappdb";
 
-// Check if the form is submitted
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Lidhja deshtoi" . $conn->connect_error);
+}
+
+// Initialize variables
+$errorMessage = '';
+
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $storedUser = json_decode($_SESSION['registeredUser'], true) ?? [];
+    // Get username and password from form submission
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    // Get the username and password from the form
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+    // SQL query to fetch user from database
+    $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $result = $conn->query($sql);
 
-    // Check if the provided username and password match the stored user credentials
-    if ($username === $storedUser['username'] && $password === $storedUser['password']) {
-        // Valid credentials, redirect to the dashboard or perform further actions
-        // For example:
+    if ($result->num_rows > 0) {
+        // User found, redirect to dashboard or desired page
         header("Location: dashboard.php");
-        exit;
+        exit();
     } else {
-        // Invalid credentials, show error message
         $errorMessage = "Invalid username or password";
     }
 }
+
+// Close database connection
+$conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
