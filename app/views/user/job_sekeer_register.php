@@ -16,23 +16,36 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if the user is logged in
-if (!isset($_SESSION['UserID'])) {
-    header("Location: login.php"); // Redirect to login page if not logged in
-    exit();
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Handle job seeker registration
+    $firstName = $_POST['firstName'] ?? '';
+    $lastName = $_POST['lastName'] ?? '';
+    $phone = $_POST['phone'] ?? '';
+    // Handle resume file upload if needed
+
+    // Perform validation as needed
+    if (!empty($firstName) && !empty($lastName) && !empty($phone)) {
+        // Prepare and bind the INSERT statement
+        $stmt = $conn->prepare("INSERT INTO jobseekers (UserID, FirstName, LastName, Phone) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("isss", $_SESSION['UserID'], $firstName, $lastName, $phone);
+
+        // Execute the statement
+        if ($stmt->execute() === TRUE) {
+            $successMessage = "Job Seeker registered successfully";
+            // Redirect to choose_profile.php
+            header("Location: job_seeker_profile.php");
+            exit(); // Terminate the script after redirection
+        } else {
+            $errorMessage = "Error: " . $conn->error;
+        }
+
+        // Close statement
+        $stmt->close();
+    } else {
+        $errorMessage = "All fields are required";
+    }
 }
-
-// Fetch job seeker data from the database
-$userID = $_SESSION['UserID'];
-$sql = "SELECT u.*, j.* FROM users u LEFT JOIN jobseekers j ON u.UserID = j.UserID WHERE u.UserID = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $userID);
-$stmt->execute();
-$result = $stmt->get_result();
-$jobSeekerData = $result->fetch_assoc();
-
-// Close statement
-$stmt->close();
 
 // Close connection
 $conn->close();
@@ -43,22 +56,40 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Seeker Profile</title>
+    <title>Job Seeker Registration</title>
     <!-- Add your CSS styles here -->
     <!-- Your CSS styles -->
 </head>
 <body>
-    <div class="profile-container">
-        <div class="profile-left">
+    <div class="register-container">
+        <div class="register-left">
             <div class='text'>
-                <h3>Welcome, <?php echo $jobSeekerData['UserName']; ?></h3>
-                <p>Your Email: <?php echo $jobSeekerData['Email']; ?></p>
-                <p>Your Phone: <?php echo $jobSeekerData['Phone']; ?></p>
-                <!-- Display other job seeker data as needed -->
-                <p>Your First Name: <?php echo $jobSeekerData['FirstName']; ?></p>
-                <p>Your Last Name: <?php echo $jobSeekerData['LastName']; ?></p>
+                <h3>Job Seeker Registration</h3>
+                <p>Join thousands of job seekers finding their dream jobs.</p>
+                <p>Sign up now to get started!</p>
             </div>
-            <!-- Add more profile information here -->
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <div class="form-group">
+                    <input placeholder="First Name" type="text" id="firstName" name="firstName" required>
+                </div>
+                <div class="form-group">
+                    <input placeholder="Last Name" type="text" id="lastName" name="lastName" required>
+                </div>
+                <div class="form-group">
+                    <input placeholder="Phone" type="text" id="phone" name="phone" required>
+                </div>
+                <!-- Resume upload field if needed -->
+                <!-- <div class="form-group">
+                    <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+                </div> -->
+                <button type="submit">Register</button>
+                <?php if(isset($successMessage)): ?>
+                    <p><?php echo $successMessage; ?></p>
+                <?php endif; ?>
+                <?php if(!empty($errorMessage)): ?>
+                    <p class="error-message"><?php echo $errorMessage; ?></p>
+                <?php endif; ?>
+            </form>
         </div>
     </div>
 </body>

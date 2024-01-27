@@ -1,108 +1,53 @@
-.joblist-wrapper{
-    width: 100%;
-    background-color: lightgrey;
-    height: 200vh;
-    padding-bottom: 100px;
-}
-
-.listnav{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-}
-
-.listnav h2{
-    font-size: 50px;
-    color: green;
-    text-transform: uppercase;
-    padding: 20px;
-
-}
-.listnav button{
-    background-color: green;
-    padding: 20px;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-    border: 1px solid green;
-
-
-}
-.listnav button:hover{
-    border:1px solid black;
-    color: green;
-    transition: 0.5s ease-in-out;
-    background-color:transparent;
-}
-
-.jobs{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.job{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 150px;
+.jobs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjust column width as needed */
+    gap: 20px; /* Adjust gap between grid items */
     background-color: white;
-  padding-left: 20px;
-  padding-right: 20px;
-  cursor: pointer;
-  border-radius: 5px;
-  width: 1000px;
-  
+    padding: 20px;
 }
-.job:hover{
 
-    background-color: rgb(227, 225, 225);
-    border: 1px solid rgb(103, 156, 103);
-    transition: 0.5s ease-in-out;
+.job {
+    background-color: rgb(255, 228, 138);
+    padding: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
 }
-.job-left{
+
+.job:hover {
+    background-color: rgb(229, 229, 229);
+}
+
+.job-left {
     display: flex;
     align-items: center;
-   gap: 30px;
-   width: 35%;
+    gap: 20px;
 }
-.job-left img{
+
+.job-left img {
     border-radius: 50%;
     width: 60px;
     height: 60px;
-    background-color:rgb(103, 156, 103);
-    
+    background-color: rgb(103, 156, 103);
 }
-.job-left h4{
+
+.job-left h4 {
     font-size: 20px;
 }
-.job-left p{
+
+.job-left p {
     font-size: 18px;
 }
-.job-middle{
-    width: 35%;
-}
-.job-middle h3{
-color: rgb(51, 119, 207);
-font-size: 25px;
-}
-.job-middle p{
-    font-size: 18px;
-    color: rgb(45, 118, 164);
-}
-.job-right{
-    width: 30%;
-}
-.job-right a{
+
+.job-right a {
     color: white;
-    font-size: 20px;
+    font-size: 15px;
+    margin-left: 65%;
+    margin-bottom: 5%;
     text-decoration: none;
-    background-color: green;
-    padding: 15px;
+    background-color: rgb(0, 0, 0);
+     padding: 8px;
     border-radius: 10px;
+
 }
 
