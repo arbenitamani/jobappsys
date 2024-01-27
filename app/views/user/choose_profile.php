@@ -25,7 +25,7 @@
 
     <script>
         document.getElementById("employerBox").addEventListener("click", function() {
-            window.location.href = "employer.php"; 
+            window.location.href = "employer_register.php"; 
         });
 
         document.getElementById("userBox").addEventListener("click", function() {
