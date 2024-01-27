@@ -1,6 +1,12 @@
 <?php
 session_start();
-$errorMessage = '';
+
+// Check if the user is logged in
+if (!isset($_SESSION['UserID'])) {
+    // Redirect to the login page if not logged in
+    header("Location: login.php");
+    exit();
+}
 
 // Database connection parameters
 $servername = "localhost";
@@ -16,23 +22,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if the user is logged in
-if (!isset($_SESSION['UserID'])) {
-    header("Location: login.php"); // Redirect to login page if not logged in
-    exit();
-}
-
 // Fetch user data from the database
 $userID = $_SESSION['UserID'];
-$sql = "SELECT u.*, e.* FROM users u  INNER JOIN employers e ON u.UserID = e.UserID WHERE u.UserID = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $userID);
-$stmt->execute();
-$result = $stmt->get_result();
-$userData = $result->fetch_assoc();
+$sql = "SELECT * FROM jobseekers WHERE UserID = $userID";
+$result = $conn->query($sql);
 
-// Close statement
-$stmt->close();
+if ($result->num_rows > 0) {
+    // User data found
+    $userData = $result->fetch_assoc();
+} else {
+    // No user data found
+    $userData = array(); // Empty array
+}
 
 // Close connection
 $conn->close();
@@ -44,6 +45,8 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <!-- Add your CSS styles here -->
+    <link rel="stylesheet" href="userprofile.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -83,7 +86,7 @@ $conn->close();
         }
 
         .profile-left p {
-            font-size: 15px;
+            font-size: 25px;
             margin-bottom: 5px;
             color:black;
         }
@@ -107,20 +110,18 @@ $conn->close();
 </head>
 <body>
     <div class="profile-container">
-       
         <div class="profile-right">
-            <!-- Add your background image here -->
              <div class="profile-left">
-            <div class='text'>
-                <h3>Welcome, <?php echo $userData['UserName']; ?></h3>
-                <p><strong>Your Email:</strong> <br><br> <?php echo $userData['Email']; ?></p>
-                <p><strong> Company Name:</strong> <br><br><?php echo $userData['CompanyName']; ?></p>
-                <p><strong> Industry:</strong> <br><br><?php echo $userData['Industry']; ?></p>
-                <p><strong> Contact Info:</strong><br><br> <?php echo $userData['ContactInfo']; ?></p>
-            </div>
-            <!-- Add more profile information here -->
+            
+            <div class="text">
+                <h3>Welcome, <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'User'; ?></h3>
+    <p><strong>First Name:</strong>  <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'N/A'; ?></p>
+    <p><strong> Name:</strong> <?php echo isset($userData['LastName']) ? $userData['LastName'] : 'N/A'; ?></p>
+    <p><strong>Phone: </strong> <?php echo isset($userData['Phone']) ? $userData['Phone'] : 'N/A'; ?></p>
+    <!-- Add more user data as needed -->
         </div>
         </div>
+       
     </div>
 </body>
 </html>
