@@ -17,7 +17,7 @@
                     <h1>I'm an Employer</h1>
                 </div>
                 <div class="box" id="userBox">
-                    <h1>I am a User</h1>
+                    <h1>I'm a Job Sekeer</h1>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
         });
 
         document.getElementById("userBox").addEventListener("click", function() {
-            window.location.href = "user.php"; 
+            window.location.href = "job_sekeer_register.php"; 
         });
     </script>
 </body>
