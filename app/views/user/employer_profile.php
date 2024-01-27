@@ -24,7 +24,7 @@ if (!isset($_SESSION['UserID'])) {
 
 // Fetch user data from the database
 $userID = $_SESSION['UserID'];
-$sql = "SELECT u.*, e.* FROM users u LEFT JOIN employers e ON u.UserID = e.UserID WHERE u.UserID = ?";
+$sql = "SELECT u.*, e.* FROM users u  INNER JOIN employers e ON u.UserID = e.UserID WHERE u.UserID = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $userID);
 $stmt->execute();
@@ -53,6 +53,7 @@ $conn->close();
             <div class='text'>
                 <h3>Welcome, <?php echo $userData['UserName']; ?></h3>
                 <p>Your Email: <?php echo $userData['Email']; ?></p>
+                
               
                 <!-- Display other user data as needed -->
                 <p>Your Company Name: <?php echo $userData['CompanyName']; ?></p>
