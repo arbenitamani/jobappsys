@@ -1,0 +1,79 @@
+.joblist-wrapper{
+    width: 100%;
+    background-color: lightgrey;
+    height: 100vh;
+}
+
+.listnav{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.listnav h2{
+    font-size: 50px;
+
+}
+.listnav button{
+    background-color: green;
+    padding: 20px;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    border: 1px solid green;
+
+
+}
+.listnav button:hover{
+    border:1px solid black;
+    color: green;
+    transition: 0.5s ease-in-out;
+    background-color:transparent;
+}
+
+.jobs{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.job{
+    display: flex;
+    align-items: center;
+    gap: 600px;
+    background-color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  
+}
+.job:hover{
+
+    background-color: rgb(227, 225, 225);
+    border: 1px solid rgb(103, 156, 103);
+    transition: 0.5s ease-in-out;
+}
+.job-left{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+
+}
+.job-left img{
+    border-radius: 50%;
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    background-color:rgb(103, 156, 103);
+    
+}
+.job-left h4{
+    font-size: 20px;
+}
+.job-left p{
+    font-size: 18px;
+}
