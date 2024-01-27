@@ -1,7 +1,7 @@
 <?php
 require_once 'User.php'; // Adjust the path if needed
 
-class Admin extends User {
+class Admin  {
     protected $FirstName;
     protected $LastName;
     protected $Department;

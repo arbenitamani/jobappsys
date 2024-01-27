@@ -39,16 +39,16 @@
             <div class="job">
                 <div class="job-left">
                     <div>
-                        <img src="../../../images/buss.png" alt="">
+                        <img src="../../../images/web3.png" alt="">
                     </div>
                     <div>
-                        <h4>Bussines Development</h4>
-                        <p>Madrid, Spain</p>
+                        <h4>Web Development</h4>
+                        <p>London, United Kingdom</p>
                     </div>
                 </div>
 
                 <div class="job-right">
-                    <h3>7 days left</h3>
+                    <h3>5 days left</h3>
                     <p>to receive candidates</p>
                 </div>
 
@@ -57,16 +57,16 @@
             <div class="job">
                 <div class="job-left">
                     <div>
-                        <img src="../../../images/buss.png" alt="">
+                        <img src="../../../images/uiux.png" alt="">
                     </div>
                     <div>
-                        <h4>Bussines Development</h4>
+                        <h4>UI/UX Deigner</h4>
                         <p>Madrid, Spain</p>
                     </div>
                 </div>
 
                 <div class="job-right">
-                    <h3>7 days left</h3>
+                    <h3>8 days left</h3>
                     <p>to receive candidates</p>
                 </div>
 
