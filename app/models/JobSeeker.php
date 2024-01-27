@@ -1,3 +1,5 @@
+<?php
+require_once 'User.php';
 class JobSeeker extends User {
     protected $FirstName;
     protected $LastName;
@@ -14,3 +16,4 @@ class JobSeeker extends User {
 
     // Additional methods specific to JobSeeker
 }
+?>

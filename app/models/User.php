@@ -1,9 +1,9 @@
 <!-- models/User.php  -->
 <?php class User {
-    protected $UserID;
-    protected $UserName;
-    protected $Email;
-    protected $Password;
+    public $UserID;
+    public $UserName;
+    public $Email;
+    public $Password;
 
     public function __construct($UserID, $UserName, $Email, $Password) {
         $this->UserID = $UserID;

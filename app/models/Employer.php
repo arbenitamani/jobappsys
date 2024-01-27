@@ -1,4 +1,5 @@
-// models/Employer.php
+
+<?php// models/Employer.php
 class Employer extends User {
     protected $CompanyName;
     protected $Industry;
@@ -13,3 +14,4 @@ class Employer extends User {
 
     // Additional methods specific to Employer
 }
+?>

@@ -1,6 +1,6 @@
 <?php
-require '.../models/Admin.php';
-require '.../config/database.php';
+require '../models/Admin.php';
+require '../config/database.php';
 
 class AdminController {
     public function registerAdminManually($data) {
