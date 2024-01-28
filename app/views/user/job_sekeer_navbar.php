@@ -14,7 +14,10 @@
 
         nav {
             background-color: orange;
-            padding: 10px 20px;
+          height: 50px;
+            width: 100%;
+            margin: 0;
+          
         }
 
         nav ul {
@@ -44,8 +47,10 @@
 <body>
     <nav>
         <ul>
-            <li><a href="profile.php">My Profile</a></li>
-            <li><a href="">Browse Jobs</a></li>
+        <li><a href="../../../index.php">Home</a></li>
+
+            <li><a href="./job_seeker_profile.php">My Profile</a></li>
+            <li><a href="../job/job_list.php">Browse Jobs</a></li>
         </ul>
     </nav>
 
