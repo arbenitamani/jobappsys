@@ -70,7 +70,89 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Job Post</title>
     <!-- Add your CSS styles here -->
-    <!-- Your CSS styles -->
+    <style>
+        /* Your CSS styles */
+        .create-jobpost-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgba(249, 175, 18, 1);
+            text-align: center;
+        }
+
+        .create-jobpost-left {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: rgb(255, 255, 255);
+            height: 100%;
+            width: 70%;
+        }
+
+        .create-jobpost-left .text {
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+            font-size: 30px;
+            margin-bottom: 3%;
+            color: rgb(81, 81, 81);
+        }
+
+        .create-jobpost-left form {
+            width: 80%;
+        }
+
+        .create-jobpost-left label {
+            color: #333;
+            font-size: 18px;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .create-jobpost-left input, .create-jobpost-left textarea {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            height: 40px;
+            width: 100%;
+            border-radius: 15px;
+            font-size: 16px;
+            padding-left: 10px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+            margin-bottom: 2%;
+        }
+
+        .create-jobpost-left input:focus, .create-jobpost-left textarea:focus {
+            border-color: rgb(156, 158, 255);
+            box-shadow: 0 0 5px rgba(45, 133, 234, 0.5);
+            color: lightgray;
+        }
+
+        .create-jobpost-container button {
+            width: 90%;
+            height: 40px;
+            font-size: 16px;
+            cursor: pointer;
+            color: #fff;
+            border-radius: 10px;
+            border: none;
+            background-color: #218cff;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            margin-left: 5%;
+        }
+
+        .create-jobpost-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="create-jobpost-container">
@@ -115,5 +197,4 @@ $conn->close();
         </div>
     </div>
 </body>
-
 </html>
