@@ -124,6 +124,7 @@ $conn->close();
                 <p><strong>Company Name:</strong> <?php echo isset($userData['CompanyName']) ? $userData['CompanyName'] : 'N/A'; ?></p>
                 <p><strong>Industry:</strong> <?php echo isset($userData['Industry']) ? $userData['Industry'] : 'N/A'; ?></p>
                 <hr>
+                <a href="createjobpost.php?employerID=<?php echo isset($userData['UserID']) ? $userData['UserID'] : ''; ?>" class="create-jobpost-button">Create Job Post</a>
             </div>
         </div>
     </div>

@@ -26,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $location = $_POST['location'] ?? '';
     $salary = $_POST['salary'] ?? '';
     $employerID = $_POST['employerID'] ?? '';
-   // $categoryID = $_POST['categoryID'] ?? '';
 
     // Check if the EmployerID exists in the employers table
     $checkExistenceStmt = $conn->prepare("SELECT UserID FROM employers WHERE UserID = ?");
@@ -41,8 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // EmployerID exists, proceed with job post insertion
         $stmt = $conn->prepare("INSERT INTO jobposts (Title, Description, Qualifications, Location, Salary, EmployerID) VALUES (?, ?, ?, ?, ?, ?)");
         // Corrected bind_param
-$stmt->bind_param("ssssdd", $title, $description, $qualifications, $location, $salary, $employerID);
-
+        $stmt->bind_param("ssssdd", $title, $description, $qualifications, $location, $salary, $employerID);
 
         if ($stmt->execute() === TRUE) {
             $successMessage = "Job post created successfully";
@@ -57,6 +55,9 @@ $stmt->bind_param("ssssdd", $title, $description, $qualifications, $location, $s
     // Close the checkExistenceStmt
     $checkExistenceStmt->close();
 }
+
+// Retrieve employerID from URL parameter or set it to an empty string if not present
+$employerIDFromURL = isset($_GET['employerID']) ? $_GET['employerID'] : '';
 
 // Close connection
 $conn->close();
@@ -101,14 +102,8 @@ $conn->close();
                     <label for="salary">Salary:</label>
                     <input type="text" name="salary" required>
                 </div>
-                <div class="form-group">
-                    <label for="employerID">Employer ID:</label>
-                    <input type="text" name="employerID" required>
-                </div>
-                <!-- <div class="form-group">
-                    <label for="categoryID">Category ID:</label>
-                    <input type="text" name="categoryID" required>
-                </div> -->
+                <!-- Pre-fill employerID from the URL parameter -->
+                <input type="hidden" name="employerID" value="<?php echo $employerIDFromURL; ?>">
                 <button type="submit">Create Job Post</button>
                 <?php if(isset($successMessage)): ?>
                     <p><?php echo $successMessage; ?></p>
@@ -120,4 +115,5 @@ $conn->close();
         </div>
     </div>
 </body>
+
 </html>
