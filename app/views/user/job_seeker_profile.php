@@ -106,24 +106,36 @@ $conn->close();
 <body>
     <div class="profile-container">
         <div class="profile-left"> 
-            <img src="../../../images/uprof.png" alt=""> 
+<img src="../../../images/uprof.png" alt=""> 
+<h3>Welcome, <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'User'; ?></h3>
+    <p><strong>First Name:</strong>  <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'N/A'; ?></p>
+    <p><strong> Last Name:</strong> <?php echo isset($userData['LastName']) ? $userData['LastName'] : 'N/A'; ?></p>
+    <p><strong>Phone: </strong> <?php echo isset($userData['Phone']) ? $userData['Phone'] : 'N/A'; ?></p>
+    
         </div>
-        <div class="profile-right">
-            <div class="text"> 
-                           <h3>Welcome, <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'User'; ?></h3>
-<hr>
-            <p><strong>First Name:</strong>  <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'N/A'; ?></p>
-            <p><strong>Last Name:</strong> <?php echo isset($userData['LastName']) ? $userData['LastName'] : 'N/A'; ?></p>
-            <hr>
-            <p><strong>Phone:</strong> <?php echo isset($userData['Phone']) ? $userData['Phone'] : 'N/A'; ?></p>
-            <hr>
-                <h3>Company Name</h3>
-                <p><?php echo isset($userData['CompanyName']) ? $userData['CompanyName'] : 'N/A'; ?></p> <hr>
-                
-                <h3>Contact Info</h3>
-                <p><?php echo isset($userData['ContactInfo']) ? $userData['ContactInfo'] : 'N/A'; ?></p> <hr>
-            </div>
+             <div class="profile-right">
+            
+            <div class="text">
+               
+    <!-- Add more user data as needed -->
+   
+    <h3>Education</h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti obcaecati consectetur dolore at facere ullam tempora eligendi labore illum ipsum unde deleniti ex atque molestias, porro ab doloremque, pariatur temporibus.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni libero ea natus quisquam odit officiis iste tempore a commodi ipsam atque non cumque illo mollitia, nobis ducimus, ex recusandae sequi.
+    </p> <hr>
+    <h3>Experience</h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti obcaecati consectetur dolore at facere ullam tempora eligendi labore illum ipsum unde deleniti ex atque molestias, porro ab doloremque, pariatur temporibus.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni libero ea natus quisquam odit officiis iste tempore a commodi ipsam atque non cumque illo mollitia, nobis ducimus, ex recusandae sequi.
+    </p> <hr>
+    <h3>Bio</h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti obcaecati consectetur dolore at facere ullam tempora eligendi labore illum ipsum unde deleniti ex atque molestias, porro ab doloremque, pariatur temporibus.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni libero ea natus quisquam odit officiis iste tempore a commodi ipsam atque non cumque illo mollitia, nobis ducimus, ex recusandae sequi.
+    </p> <hr>
+    <h3>Languages</h3>
+    <p>Albanian, English and German</p>
         </div>
+       
+       
     </div>
 </body>
 </html>
