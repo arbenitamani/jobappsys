@@ -1,4 +1,7 @@
 <?php
+session_start();
+$errorMessage = '';
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -6,48 +9,77 @@ $dbname = "jobappdb";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
-    die("Lidhja deshtoi" . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// Initialize variables
 $email = '';
 $password = '';
-$loginError = '';
 
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get email and password from form submission
     $email = $_POST['Email'];
     $password = $_POST['Password'];
 
-    // Use prepared statement to prevent SQL injection
-    $stmt = $conn->prepare("SELECT * FROM users WHERE Email = ? AND Password = ?");
-    $stmt->bind_param("ss", $email, $password);
+    $stmt = $conn->prepare("SELECT UserID, Password FROM users WHERE Email = ?");
+    $stmt->bind_param("s", $email);
     $stmt->execute();
 
-    // Store the result
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // User found, handle login logic (e.g., set session variables)
-        // Redirect or send a success response to the client
-        echo json_encode(["success" => true, "message" => "Login successful"]);
-        exit();
+        $row = $result->fetch_assoc();
+        $storedPassword = $row['Password'];
+        $userID = $row['UserID'];
+
+        // Verify the password
+        if (password_verify($password, $storedPassword)) {
+            $_SESSION['UserID'] = $userID;
+
+            // Redirect the user based on their type
+            $userType = determineUserType($conn, $userID);
+            if ($userType == 'employer') {
+                header("Location: employer_profile.php");
+                exit();
+            } elseif ($userType == 'jobseeker') {
+                header("Location: job_seeker_profile.php");
+                exit();
+            }
+        } else {
+            $errorMessage = "Invalid email or password";
+        }
     } else {
-        echo("Invalid email or password");
-        $loginError = "Invalid email or password";
+        $errorMessage = "Invalid email or password";
     }
 
-    // Close prepared statement
     $stmt->close();
 }
 
-// Close database connection
 $conn->close();
-?>
 
+// Function to determine the user type
+function determineUserType($conn, $userID) {
+    $stmt = $conn->prepare("SELECT 
+                              CASE
+                                  WHEN e.UserID IS NOT NULL THEN 'employer'
+                                  WHEN j.UserID IS NOT NULL THEN 'jobseeker'
+                                  ELSE 'unknown'
+                              END AS UserType
+                           FROM users u
+                           LEFT JOIN employers e ON u.UserID = e.UserID
+                           LEFT JOIN jobseekers j ON u.UserID = j.UserID
+                           WHERE u.UserID = ?");
+    $stmt->bind_param("i", $userID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['UserType'];
+    } else {
+        return 'unknown';
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -221,10 +253,9 @@ $conn->close();
     <div class='login-container'>
         <div class='login-left'>
             <div class="text-overlay">
-                  <h1 class="h1">WorkWise</h1>
-            <p class="p">"Connecting Talent with Opportunity"</p>
+                <h1 class="h1">WorkWise</h1>
+                <p class="p">"Connecting Talent with Opportunity"</p>
             </div>
-          
             <img src="../../../images/job2.jpg" alt="Job Image">
         </div>
         <div class='login-right'>
@@ -235,24 +266,20 @@ $conn->close();
                 <?php endif; ?>
                 <p class="instruction-text">Please enter your email and password to access your account</p>
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <div>
-        <input placeholder='Enter your email' type="text" id="Email" name="Email" required>
-    </div>
-    <br />
-    <div>
-        <input placeholder='Enter your password' type="password" id="Password" name="Password" required>
-    </div>
-    <br />
-    <div>
-        <button type="submit">Login</button>
-        <?php if (!empty($loginError)): ?>
-            <p class="error-message"><?php echo "Invalid email or password"; ?></p>
-        <?php endif; ?>
-        <p>You don't have an account?</p>
-        <a href="register.php">Register</a>
-    </div>
-</form>
-
+                    <div>
+                        <input placeholder='Enter your email' type="text" id="Email" name="Email" required>
+                    </div>
+                    <br />
+                    <div>
+                        <input placeholder='Enter your password' type="password" id="Password" name="Password" required>
+                    </div>
+                    <br />
+                    <div>
+                        <button type="submit">Login</button>
+                        <p>You don't have an account?</p>
+                        <a href="register.php">Register</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
