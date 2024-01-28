@@ -71,11 +71,11 @@ $conn->close();
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            margin-top: 20px;
+            flex-direction: column;
         }
 
         .profile-left {
-            margin-right: 20px;
+            
             text-align: center;
         }
 
@@ -115,11 +115,25 @@ $conn->close();
             border: 1px solid #ddd;
             margin: 15px 0;
         }
+        .all{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 100px;
+            margin-left: 300px;
+            margin-top: 50px;
+           
+        }
     </style>
 </head>
 <body>
     <div class="profile-container">
-        <div class="profile-left">
+      
+
+    <?php include './job_sekeer_navbar.php'; ?>
+
+    <div class="all">
+         <div class="profile-left">
             <img src="../../../images/uprof.png" alt="">
             <h3>Welcome, <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'User'; ?></h3>
             <p><strong>First Name:</strong> <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'N/A'; ?></p>
@@ -165,6 +179,8 @@ $conn->close();
                 } ?>
             </div>
         </div>
+    </div>
+       
     </div>
 </body>
 </html>
