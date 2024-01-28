@@ -24,16 +24,28 @@ if ($conn->connect_error) {
 
 // Fetch user data from the database
 $userID = $_SESSION['UserID'];
-$sql = "SELECT * FROM jobseekers WHERE UserID = $userID";
-$result = $conn->query($sql);
+$sql_user = "SELECT * FROM jobseekers WHERE UserID = $userID";
+$result_user = $conn->query($sql_user);
 
-if ($result->num_rows > 0) {
+if ($result_user->num_rows > 0) {
     // User data found
-    $userData = $result->fetch_assoc();
+    $userData = $result_user->fetch_assoc();
 } else {
     // No user data found
     $userData = array(); // Empty array
 }
+
+// Fetch education data
+$sql_education = "SELECT * FROM education WHERE UserID = $userID";
+$result_education = $conn->query($sql_education);
+
+// Fetch work experience data
+$sql_experience = "SELECT * FROM workexperience WHERE UserID = $userID";
+$result_experience = $conn->query($sql_experience);
+
+// Fetch language data
+$sql_languages = "SELECT * FROM languages WHERE UserID = $userID";
+$result_languages = $conn->query($sql_languages);
 
 // Close connection
 $conn->close();
@@ -58,84 +70,101 @@ $conn->close();
         .profile-container {
             display: flex;
             justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100vh;
-            gap: 200px;
+            align-items: flex-start;
+            margin-top: 20px;
         }
 
-        .profile-left img{
+        .profile-left {
+            margin-right: 20px;
+            text-align: center;
+        }
+
+        .profile-left img {
             width: 200px;
             height: 200px;
-            margin-top: -900px;
-        }
-.profile-left h3{
-    font-size: 28px;
-          color: orange;
-          margin-top: 50px;
-}
-.profile-left p{
-    font-size: 18px;
-          
-}
-.profile-left strong{
-            color: orange;
-            font-size: 25px;
-        }
-        .profile-right h3{
-          font-size: 28px;
-          color: orange;
+            border-radius: 50%;
         }
 
-        .profile-right p{
-            font-size: 18px;
-            width: 900px;
+        .profile-left h3 {
+            color: #FFA500;
+            margin-top: 20px;
         }
 
-        .profile-right strong{
-            color: orange;
-            font-size: 25px;
+        .profile-left p {
+            font-size: 16px;
         }
-        .profile-right hr{
-            width: auto;
-            height: 2px solid black;
+
+        .profile-right {
+            width: 600px;
+            background-color: #FFF;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-     
+
+        .profile-right h3 {
+            color: #FFA500;
+            margin-top: 0;
+        }
+
+        .profile-right p {
+            font-size: 16px;
+        }
+
+        .profile-right hr {
+            border: 1px solid #ddd;
+            margin: 15px 0;
+        }
     </style>
 </head>
 <body>
     <div class="profile-container">
-        <div class="profile-left"> 
-<img src="../../../images/uprof.png" alt=""> 
-<h3>Welcome, <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'User'; ?></h3>
-    <p><strong>First Name:</strong>  <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'N/A'; ?></p>
-    <p><strong> Last Name:</strong> <?php echo isset($userData['LastName']) ? $userData['LastName'] : 'N/A'; ?></p>
-    <p><strong>Phone: </strong> <?php echo isset($userData['Phone']) ? $userData['Phone'] : 'N/A'; ?></p>
-    
+        <div class="profile-left">
+            <img src="../../../images/uprof.png" alt="">
+            <h3>Welcome, <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'User'; ?></h3>
+            <p><strong>First Name:</strong> <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'N/A'; ?></p>
+            <p><strong>Last Name:</strong> <?php echo isset($userData['LastName']) ? $userData['LastName'] : 'N/A'; ?></p>
+            <p><strong>Phone:</strong> <?php echo isset($userData['Phone']) ? $userData['Phone'] : 'N/A'; ?></p>
         </div>
-             <div class="profile-right">
-            
+        <div class="profile-right">
             <div class="text">
-               
-    <!-- Add more user data as needed -->
-   
-    <h3>Education</h3>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti obcaecati consectetur dolore at facere ullam tempora eligendi labore illum ipsum unde deleniti ex atque molestias, porro ab doloremque, pariatur temporibus.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni libero ea natus quisquam odit officiis iste tempore a commodi ipsam atque non cumque illo mollitia, nobis ducimus, ex recusandae sequi.
-    </p> <hr>
-    <h3>Experience</h3>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti obcaecati consectetur dolore at facere ullam tempora eligendi labore illum ipsum unde deleniti ex atque molestias, porro ab doloremque, pariatur temporibus.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni libero ea natus quisquam odit officiis iste tempore a commodi ipsam atque non cumque illo mollitia, nobis ducimus, ex recusandae sequi.
-    </p> <hr>
-    <h3>Bio</h3>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti obcaecati consectetur dolore at facere ullam tempora eligendi labore illum ipsum unde deleniti ex atque molestias, porro ab doloremque, pariatur temporibus.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni libero ea natus quisquam odit officiis iste tempore a commodi ipsam atque non cumque illo mollitia, nobis ducimus, ex recusandae sequi.
-    </p> <hr>
-    <h3>Languages</h3>
-    <p>Albanian, English and German</p>
+                <h3>Education</h3>
+                <?php if ($result_education->num_rows > 0) {
+                    while ($row = $result_education->fetch_assoc()) {
+                        echo "<p><strong>Institution Name:</strong> " . $row['InstitutionName'] . "</p>";
+                        echo "<p><strong>Degree:</strong> " . $row['Degree'] . "</p>";
+                        echo "<p><strong>Field of Study:</strong> " . $row['FieldOfStudy'] . "</p>";
+                        echo "<p><strong>Graduation Date:</strong> " . $row['GraduationDate'] . "</p>";
+                    }
+                } else {
+                    echo "<p>No education data available.</p>";
+                } ?>
+                <hr>
+                <h3>Experience</h3>
+                <?php if ($result_experience->num_rows > 0) {
+                    while ($row = $result_experience->fetch_assoc()) {
+                        echo "<p><strong>Company Name:</strong> " . $row['CompanyName'] . "</p>";
+                        echo "<p><strong>Position:</strong> " . $row['Position'] . "</p>";
+                        echo "<p><strong>Start Date:</strong> " . $row['StartDate'] . "</p>";
+                        echo "<p><strong>End Date:</strong> " . $row['EndDate'] . "</p>";
+                        echo "<p><strong>Description:</strong> " . $row['Description'] . "</p>";
+                    }
+                } else {
+                    echo "<p>No work experience data available.</p>";
+                } ?>
+                <hr>
+                <h3>Languages</h3>
+                <?php if ($result_languages->num_rows > 0) {
+                    while ($row = $result_languages->fetch_assoc()) {
+                        echo "<p><strong>Language:</strong> " . $row['LanguageName'] . "</p>";
+                        echo "<p><strong>Proficiency Level:</strong> " . $row['ProficiencyLevel'] . "</p>";
+                        echo "<p><strong>Certification:</strong> " . $row['Certification'] . "</p>";
+                    }
+                } else {
+                    echo "<p>No language data available.</p>";
+                } ?>
+            </div>
         </div>
-       
-       
     </div>
 </body>
 </html>

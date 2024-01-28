@@ -1,7 +1,13 @@
 <?php
 session_start();
 $errorMessage = '';
-$successMessage = '';
+
+// Check if the user is logged in
+if (!isset($_SESSION['UserID'])) {
+    // Redirect the user to the login page or handle the authentication process
+    header("Location: login.php");
+    exit(); // Terminate the script after redirection
+}
 
 // Database connection parameters
 $servername = "localhost";
@@ -19,45 +25,35 @@ if ($conn->connect_error) {
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Handle job post creation
-    $title = $_POST['title'] ?? '';
+    // Handle job experience registration
+    $companyName = $_POST['companyName'] ?? '';
+    $position = $_POST['position'] ?? '';
+    $startDate = $_POST['startDate'] ?? '';
+    $endDate = $_POST['endDate'] ?? '';
     $description = $_POST['description'] ?? '';
-    $qualifications = $_POST['qualifications'] ?? '';
-    $location = $_POST['location'] ?? '';
-    $salary = $_POST['salary'] ?? '';
-    $employerID = $_POST['employerID'] ?? '';
 
-    // Check if the EmployerID exists in the employers table
-    $checkExistenceStmt = $conn->prepare("SELECT UserID FROM employers WHERE UserID = ?");
-    $checkExistenceStmt->bind_param("i", $employerID);
-    $checkExistenceStmt->execute();
-    $checkExistenceStmt->store_result();
+    // Perform validation as needed
+    if (!empty($companyName) && !empty($position) && !empty($startDate)) {
+        // Prepare and bind the INSERT statement
+        $stmt = $conn->prepare("INSERT INTO workexperience (UserID, CompanyName, Position, StartDate, EndDate, Description) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssss", $_SESSION['UserID'], $companyName, $position, $startDate, $endDate, $description);
 
-    if ($checkExistenceStmt->num_rows == 0) {
-        // EmployerID does not exist, handle this case
-        $errorMessage = "Error: Employer with ID $employerID does not exist.";
-    } else {
-        // EmployerID exists, proceed with job post insertion
-        $stmt = $conn->prepare("INSERT INTO jobposts (Title, Description, Qualifications, Location, Salary, EmployerID) VALUES (?, ?, ?, ?, ?, ?)");
-        // Corrected bind_param
-        $stmt->bind_param("ssssdd", $title, $description, $qualifications, $location, $salary, $employerID);
-
+        // Execute the statement
         if ($stmt->execute() === TRUE) {
-            $successMessage = "Job post created successfully";
+            $successMessage = "Job Experience registered successfully";
+            // Redirect to some page after registration
+            header("Location: languages_register.php");
+            // exit(); // Terminate the script after redirection
         } else {
-            $errorMessage = "Error: " . $stmt->error;
+            $errorMessage = "Error: " . $conn->error;
         }
 
         // Close statement
         $stmt->close();
+    } else {
+        $errorMessage = "All fields are required";
     }
-
-    // Close the checkExistenceStmt
-    $checkExistenceStmt->close();
 }
-
-// Retrieve employerID from URL parameter or set it to an empty string if not present
-$employerIDFromURL = isset($_GET['employerID']) ? $_GET['employerID'] : '';
 
 // Close connection
 $conn->close();
@@ -68,11 +64,13 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Job Post</title>
+    <title>Job Experience Registration</title>
     <!-- Add your CSS styles here -->
     <style>
         /* Your CSS styles */
-        .create-jobpost-container {
+        /* Add your CSS styles here */
+        /* Your CSS styles */
+        .register-container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -81,7 +79,7 @@ $conn->close();
             text-align: center;
         }
 
-        .create-jobpost-left {
+        .register-left {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -91,7 +89,7 @@ $conn->close();
             width: 70%;
         }
 
-        .create-jobpost-left .text {
+        .register-left .text {
             text-align: center;
             font-family: 'Oswald', sans-serif;
             font-size: 30px;
@@ -99,17 +97,18 @@ $conn->close();
             color: rgb(81, 81, 81);
         }
 
-        .create-jobpost-left form {
+        .register-left form {
             width: 80%;
         }
 
-        .create-jobpost-left label {
+        .register-left label {
             color: #333;
             font-size: 18px;
             font-family: 'Oswald', sans-serif;
         }
 
-        .create-jobpost-left input, .create-jobpost-left textarea {
+        .register-left input,
+        .register-left textarea {
             background-color: #fff;
             border: 1px solid #ccc;
             height: 40px;
@@ -122,13 +121,14 @@ $conn->close();
             margin-bottom: 2%;
         }
 
-        .create-jobpost-left input:focus, .create-jobpost-left textarea:focus {
+        .register-left input:focus,
+        .register-left textarea:focus {
             border-color: rgb(156, 158, 255);
             box-shadow: 0 0 5px rgba(45, 133, 234, 0.5);
             color: lightgray;
         }
 
-        .create-jobpost-container button {
+        button {
             width: 90%;
             height: 40px;
             font-size: 16px;
@@ -143,50 +143,40 @@ $conn->close();
             margin-left: 5%;
         }
 
-        .create-jobpost-container button:hover {
+        button:hover {
             background-color: #0056b3;
         }
 
         .error-message {
             color: red;
-            font-size: 14px;
-            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="create-jobpost-container">
-        <div class="create-jobpost-left">
+    <div class="register-container">
+        <div class="register-left">
             <div class='text'>
-                <h3>Create Job Post</h3>
-                <p>Describe the details of the job you're posting.</p>
-                <p>Get started now!</p>
+                <h3>Job Experience Registration</h3>
+                <p>Enter your work experience details.</p>
+                <p>Sign up now to get started!</p>
             </div>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <!-- Include form fields for creating a new job post -->
                 <div class="form-group">
-                    <label for="title">Title:</label>
-                    <input type="text" name="title" required>
+                    <input placeholder="Company Name" type="text" id="companyName" name="companyName" required>
                 </div>
                 <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea name="description" required></textarea>
+                    <input placeholder="Position" type="text" id="position" name="position" required>
                 </div>
                 <div class="form-group">
-                    <label for="qualifications">Qualifications:</label>
-                    <textarea name="qualifications" required></textarea>
+                    <input placeholder="Start Date" type="date" id="startDate" name="startDate" required>
                 </div>
                 <div class="form-group">
-                    <label for="location">Location:</label>
-                    <input type="text" name="location" required>
+                    <input placeholder="End Date" type="date" id="endDate" name="endDate">
                 </div>
                 <div class="form-group">
-                    <label for="salary">Salary:</label>
-                    <input type="text" name="salary" required>
+                    <textarea placeholder="Description" id="description" name="description" rows="4" required></textarea>
                 </div>
-                <!-- Pre-fill employerID from the URL parameter -->
-                <input type="hidden" name="employerID" value="<?php echo $employerIDFromURL; ?>">
-                <button type="submit">Create Job Post</button>
+                <button type="submit">Register</button>
                 <?php if(isset($successMessage)): ?>
                     <p><?php echo $successMessage; ?></p>
                 <?php endif; ?>

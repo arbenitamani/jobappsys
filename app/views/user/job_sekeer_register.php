@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute() === TRUE) {
             $successMessage = "Job Seeker registered successfully";
             // Redirect to choose_profile.php
-            header("Location: job_seeker_profile.php");
+            header("Location: education_register.php");
             exit(); // Terminate the script after redirection
         } else {
             $errorMessage = "Error: " . $conn->error;

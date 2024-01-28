@@ -24,7 +24,13 @@ if ($conn->connect_error) {
 
 // Fetch user data from the database
 $userID = $_SESSION['UserID'];
-$sql = "SELECT * FROM jobseekers WHERE UserID = $userID";
+
+// Join the users and employers tables on UserID
+$sql = "SELECT u.UserID, u.UserName, u.Email, e.ContactInfo, e.CompanyName, e.Industry
+        FROM users u
+        LEFT JOIN employers e ON u.UserID = e.UserID
+        WHERE u.UserID = $userID";
+
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -38,7 +44,6 @@ if ($result->num_rows > 0) {
 // Close connection
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,18 +115,16 @@ $conn->close();
         </div>
         <div class="profile-right">
             <div class="text"> 
-                           <h3>Welcome, <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'User'; ?></h3>
-<hr>
-            <p><strong>First Name:</strong>  <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'N/A'; ?></p>
-            <p><strong>Last Name:</strong> <?php echo isset($userData['LastName']) ? $userData['LastName'] : 'N/A'; ?></p>
-            <hr>
-            <p><strong>Phone:</strong> <?php echo isset($userData['Phone']) ? $userData['Phone'] : 'N/A'; ?></p>
-            <hr>
-                <h3>Company Name</h3>
-                <p><?php echo isset($userData['CompanyName']) ? $userData['CompanyName'] : 'N/A'; ?></p> <hr>
-                
-                <h3>Contact Info</h3>
-                <p><?php echo isset($userData['ContactInfo']) ? $userData['ContactInfo'] : 'N/A'; ?></p> <hr>
+                <h3>Welcome, <?php echo isset($userData['UserName']) ? $userData['UserName'] : 'User'; ?></h3>
+                <hr>
+                <p><strong>Email:</strong> <?php echo isset($userData['Email']) ? $userData['Email'] : 'N/A'; ?></p>
+                <hr>
+                <h3>User Information</h3>
+                <p><strong>Contact Info:</strong> <?php echo isset($userData['ContactInfo']) ? $userData['ContactInfo'] : 'N/A'; ?></p>
+                <p><strong>Company Name:</strong> <?php echo isset($userData['CompanyName']) ? $userData['CompanyName'] : 'N/A'; ?></p>
+                <p><strong>Industry:</strong> <?php echo isset($userData['Industry']) ? $userData['Industry'] : 'N/A'; ?></p>
+                <hr>
+                <a href="createjobpost.php?employerID=<?php echo isset($userData['UserID']) ? $userData['UserID'] : ''; ?>" class="create-jobpost-button">Create Job Post</a>
             </div>
         </div>
     </div>

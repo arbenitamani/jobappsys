@@ -1,6 +1,6 @@
 .jobs {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjust column width as needed */
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Adjust column width as needed */
     gap: 20px; /* Adjust gap between grid items */
     background-color: white;
     padding: 20px;
@@ -42,7 +42,7 @@
 .job-right a {
     color: white;
     font-size: 15px;
-    margin-left: 65%;
+    margin-left: 50%;
     margin-bottom: 5%;
     text-decoration: none;
     background-color: rgb(0, 0, 0);
