@@ -1,6 +1,6 @@
 .jobs {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(00px, 1fr)); /* Adjust column width as needed */
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Adjust column width as needed */
     gap: 20px; /* Adjust gap between grid items */
     background-color: white;
     padding: 20px;
