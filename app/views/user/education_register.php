@@ -56,6 +56,76 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Education Registration</title>
     <!-- Add your CSS styles here -->
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9af12;
+            margin: 0;
+            padding: 0;
+        }
+        .register-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .register-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .register-form h3 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+        }
+        .register-form p {
+            margin: 5px 0;
+            color: #666;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group input {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 0 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #218cff;
+            box-shadow: 0 0 5px rgba(33, 140, 255, 0.5);
+        }
+        button[type="submit"] {
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 5px;
+            background-color: #218cff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-top: 10px;
+        }
         /* Your CSS styles */
     </style>
 </head>
