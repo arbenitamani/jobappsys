@@ -6,7 +6,11 @@ function renderContent($selectedOption)
 {
     switch ($selectedOption) {
         case 'Users':
-            return '<div class="users">Users Content</div>';
+            // Include the PHP code for user profile here
+            ob_start();
+            include 'manage_users.php';
+            $content = ob_get_clean();
+            return $content;
         case 'Applications':
             return '<div class="applications">Applications Content</div>';
         case 'Interviews':
@@ -19,6 +23,7 @@ function renderContent($selectedOption)
             return '';
     }
 }
+
 ?>
 
 <!DOCTYPE html>
