@@ -1,6 +1,12 @@
 <?php
 session_start();
-$errorMessage = '';
+
+// Check if the user is logged in
+if (!isset($_SESSION['UserID'])) {
+    // Redirect to the login page if not logged in
+    header("Location: login.php");
+    exit();
+}
 
 // Database connection parameters
 $servername = "localhost";
@@ -16,23 +22,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if the user is logged in
-if (!isset($_SESSION['UserID'])) {
-    header("Location: login.php"); // Redirect to login page if not logged in
-    exit();
-}
-
 // Fetch user data from the database
 $userID = $_SESSION['UserID'];
-$sql = "SELECT u.*, e.* FROM users u  INNER JOIN employers e ON u.UserID = e.UserID WHERE u.UserID = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $userID);
-$stmt->execute();
-$result = $stmt->get_result();
-$userData = $result->fetch_assoc();
+$sql = "SELECT * FROM jobseekers WHERE UserID = $userID";
+$result = $conn->query($sql);
 
-// Close statement
-$stmt->close();
+if ($result->num_rows > 0) {
+    // User data found
+    $userData = $result->fetch_assoc();
+} else {
+    // No user data found
+    $userData = array(); // Empty array
+}
 
 // Close connection
 $conn->close();
@@ -44,6 +45,8 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <!-- Add your CSS styles here -->
+    <link rel="stylesheet" href="userprofile.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,72 +57,72 @@ $conn->close();
 
         .profile-container {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             width: 100%;
             height: 100vh;
+            gap: 200px;
         }
 
-        .profile-left {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 400px;
-            height: 500px;
-            background-color: lightgrey;
-            box-shadow: 0 0 10px rgba(203, 246, 260, 3.7);            
-            border-radius: 10px;
-           padding: 20px;
+        .profile-left img{
+            width: 200px;
+            height: 200px;
+            margin-top: -900px;
+        }
+.profile-left h3{
+    font-size: 28px;
+          color: orange;
+          margin-top: 50px;
+}
+.profile-left p{
+    font-size: 18px;
+          
+}
+.profile-left strong{
+            color: orange;
+            font-size: 25px;
+        }
+        .profile-right h3{
+          font-size: 28px;
+          color: orange;
         }
 
-        .profile-left h3 {
-            font-size: 30px;
-            font-weight: 800;
-            margin-bottom: 60px;
-            color: rgb(45, 118, 164);
-            text-transform: uppercase;
-        }
-
-        .profile-left p {
-            font-size: 15px;
-            margin-bottom: 5px;
-            color:black;
-        }
-        .profile-left p strong{
-            color:rgb(45, 118, 164);
+        .profile-right p{
             font-size: 18px;
+            width: 900px;
         }
 
-        .profile-right {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            background-image: url('../../../images/ub.jpg');
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
+        .profile-right strong{
+            color: orange;
+            font-size: 25px;
         }
+        .profile-right hr{
+            width: auto;
+            height: 2px solid black;
+        }
+     
     </style>
 </head>
 <body>
     <div class="profile-container">
-       
-        <div class="profile-right">
-            <!-- Add your background image here -->
-             <div class="profile-left">
-            <div class='text'>
-                <h3>Welcome, <?php echo $userData['UserName']; ?></h3>
-                <p><strong>Your Email:</strong> <br><br> <?php echo $userData['Email']; ?></p>
-                <p><strong> Company Name:</strong> <br><br><?php echo $userData['CompanyName']; ?></p>
-                <p><strong> Industry:</strong> <br><br><?php echo $userData['Industry']; ?></p>
-                <p><strong> Contact Info:</strong><br><br> <?php echo $userData['ContactInfo']; ?></p>
-            </div>
-            <!-- Add more profile information here -->
+        <div class="profile-left"> 
+            <img src="../../../images/uprof.png" alt=""> 
         </div>
+        <div class="profile-right">
+            <div class="text"> 
+                           <h3>Welcome, <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'User'; ?></h3>
+<hr>
+            <p><strong>First Name:</strong>  <?php echo isset($userData['FirstName']) ? $userData['FirstName'] : 'N/A'; ?></p>
+            <p><strong>Last Name:</strong> <?php echo isset($userData['LastName']) ? $userData['LastName'] : 'N/A'; ?></p>
+            <hr>
+            <p><strong>Phone:</strong> <?php echo isset($userData['Phone']) ? $userData['Phone'] : 'N/A'; ?></p>
+            <hr>
+                <h3>Company Name</h3>
+                <p><?php echo isset($userData['CompanyName']) ? $userData['CompanyName'] : 'N/A'; ?></p> <hr>
+                
+                <h3>Contact Info</h3>
+                <p><?php echo isset($userData['ContactInfo']) ? $userData['ContactInfo'] : 'N/A'; ?></p> <hr>
+            </div>
         </div>
     </div>
 </body>
