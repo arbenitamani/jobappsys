@@ -15,6 +15,8 @@
         <div class="listnav">
             <h2>JobPosts</h2>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get">
+                <input type="text" name="search_query" placeholder="Search by title or location">
+                <button type="submit" name="search" value="Search">Search</button>
                 <button type="submit" name="sort" value="alphabetical">Sort Alphabetically</button>
             </form>
         </div>
@@ -24,13 +26,13 @@
             // Define the bubble sort function
             function bubbleSort(&$arr) {
                 $n = count($arr);
-                for ($i = 0; $i < $n-1; $i++) {
-                    for ($j = 0; $j < $n-$i-1; $j++) {
-                        if (strcasecmp($arr[$j], $arr[$j+1]) > 0) {
+                for ($i = 0; $i < $n - 1; $i++) {
+                    for ($j = 0; $j < $n - $i - 1; $j++) {
+                        if (strcasecmp($arr[$j], $arr[$j + 1]) > 0) {
                             // Swap $arr[$j] and $arr[$j+1]
                             $temp = $arr[$j];
-                            $arr[$j] = $arr[$j+1];
-                            $arr[$j+1] = $temp;
+                            $arr[$j] = $arr[$j + 1];
+                            $arr[$j + 1] = $temp;
                         }
                     }
                 }
@@ -50,13 +52,17 @@
                 die("Connection failed: " . $conn->connect_error);
             }
 
-            // Check if sorting option is selected
+            // Check if search or sorting option is selected
+            $search_query = isset($_GET['search_query']) ? $_GET['search_query'] : '';
             $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
 
             // Fetch job posts data from the database
             $sql = "SELECT * FROM jobposts";
-            
-            if ($sort == 'alphabetical') {
+
+            if (!empty($search_query)) {
+                // Perform search
+                $sql = "SELECT * FROM jobposts WHERE Title LIKE '%$search_query%' OR Location LIKE '%$search_query%'";
+            } elseif ($sort == 'alphabetical') {
                 // Fetch job titles for sorting
                 $sql = "SELECT Title FROM jobposts";
                 $result = $conn->query($sql);
@@ -99,7 +105,7 @@
                     echo "No job posts found.";
                 }
             } else {
-                // Default behavior without sorting
+                // Default behavior without search or sorting
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     // Output data of each row
