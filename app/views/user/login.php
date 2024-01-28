@@ -12,25 +12,36 @@ if ($conn->connect_error) {
 }
 
 // Initialize variables
-$errorMessage = '';
+$email = '';
+$password = '';
+$loginError = '';
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get username and password from form submission
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    // Get email and password from form submission
+    $email = $_POST['Email'];
+    $password = $_POST['Password'];
 
-    // SQL query to fetch user from database
-    $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
-    $result = $conn->query($sql);
+    // Use prepared statement to prevent SQL injection
+    $stmt = $conn->prepare("SELECT * FROM users WHERE Email = ? AND Password = ?");
+    $stmt->bind_param("ss", $email, $password);
+    $stmt->execute();
+
+    // Store the result
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // User found, redirect to dashboard or desired page
-        header("Location: dashboard.php");
+        // User found, handle login logic (e.g., set session variables)
+        // Redirect or send a success response to the client
+        echo json_encode(["success" => true, "message" => "Login successful"]);
         exit();
     } else {
-        $errorMessage = "Invalid username or password";
+        echo("Invalid email or password");
+        $loginError = "Invalid email or password";
     }
+
+    // Close prepared statement
+    $stmt->close();
 }
 
 // Close database connection
@@ -214,7 +225,7 @@ $conn->close();
             <p class="p">"Connecting Talent with Opportunity"</p>
             </div>
           
-            <img src="images/job2.jpg" alt="Job Image">
+            <img src="../../../images/job2.jpg" alt="Job Image">
         </div>
         <div class='login-right'>
             <div class='inner-container'>
@@ -224,20 +235,24 @@ $conn->close();
                 <?php endif; ?>
                 <p class="instruction-text">Please enter your email and password to access your account</p>
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <div>
-                        <input placeholder='Enter your name' type="text" id="username" name="username" required>
-                    </div>
-                    <br />
-                    <div>
-                        <input placeholder='Enter your password' type="password" id="password" name="password" required>
-                    </div>
-                    <br />
-                    <div>
-                        <button type="submit">Login</button>
-                        <p>You don't have an account?</p>
-                        <a href="register.php">Register</a>
-                    </div>
-                </form>
+    <div>
+        <input placeholder='Enter your email' type="text" id="Email" name="Email" required>
+    </div>
+    <br />
+    <div>
+        <input placeholder='Enter your password' type="password" id="Password" name="Password" required>
+    </div>
+    <br />
+    <div>
+        <button type="submit">Login</button>
+        <?php if (!empty($loginError)): ?>
+            <p class="error-message"><?php echo "Invalid email or password"; ?></p>
+        <?php endif; ?>
+        <p>You don't have an account?</p>
+        <a href="register.php">Register</a>
+    </div>
+</form>
+
             </div>
         </div>
     </div>
