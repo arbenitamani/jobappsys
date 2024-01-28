@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>JobPosts</title>
     <link rel="stylesheet" href="./joblist.css">
 </head>
 
@@ -14,101 +14,51 @@
 
         <div class="listnav">
             <h2>JobPosts</h2>
-          
         </div>
 
         <div class="jobs">
-            <div class="job">
-                <div class="job-left">
-                    
-                    <div>
-                        <h4>Bussines Developer</h4>
-                        <p>Madrid, Spain</p>
-                    </div>
-                </div>
+            <?php
+            // Database connection parameters
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "jobappdb";
 
-   
-                <div class="job-right">
-                <a href="./apply_job.php?">Apply for this job</a>
-                </div>
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
 
-            </div>
-            <div class="job">
-                <div class="job-left">
-                   
-                    <div>
-                        <h4>Web Developer</h4>
-                        <p>London, United Kingdom</p>
-                    </div>
-                </div>
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
 
-        
+            // Fetch job posts data from the database
+            $sql = "SELECT * FROM jobposts";
+            $result = $conn->query($sql);
 
-                <div class="job-right">
-                    <a href="./apply_job.php?">Apply for this job</a>
-                </div>
-            </div>
-            <div class="job">
-                <div class="job-left">
-                    
-                    <div>
-                        <h4>UI/UX Deigner</h4>
-                        <p>Madrid, Spain</p>
-                    </div>
-                </div>
+            if ($result->num_rows > 0) {
+                // Output data of each row
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="job">';
+                    echo '<div class="job-left">';
+                    echo '<div>';
+                    echo '<h4>' . $row["Title"] . '</h4>';
+                    echo '<p>' . $row["Location"] . '</p>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '<div class="job-right">';
+                    // Ensure the link includes the jobpost_id parameter
+                    echo '<a href="./job_details.php?jobpost_id=' . $row["JobPostID"] . '">Apply for this job</a>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+            } else {
+                echo "No job posts found.";
+            }
 
-          
-                <div class="job-right">
-                    <a href="./apply_job.php?">Apply for this job</a>
-                </div>
-
-            </div>
-            <div class="job">
-                <div class="job-left">
-                    
-                    <div>
-                        <h4>Software Engineer</h4>
-                        <p>Berlin, Germany</p>
-                    </div>
-                </div>
-
-            
-
-                <div class="job-right">
-                    <a href="./apply_job.php?">Apply for this job</a>
-                </div>
-            </div>
-            <div class="job">
-                <div class="job-left">
-                    
-                    <div>
-                        <h4>Graphic Designer</h4>
-                        <p>Madrid, Spain</p>
-                    </div>
-                </div>
-
-            
-                <div class="job-right">
-                    <a href="./apply_job.php?">Apply for this job</a>
-                </div>
-
-
-            </div>
-            <div class="job">
-                <div class="job-left">
-                    
-                    <div>
-                        <h4>Front-End Developer</h4>
-                        <p>Prishtina, Kosova</p>
-                    </div>
-                </div>
-
-                <div class="job-right">
-    <a href="./apply_job.php?">Apply for this job</a>
-</div>
-
-
-            </div>
+            // Close connection
+            $conn->close();
+            ?>
         </div>
     </div>
 </body>
