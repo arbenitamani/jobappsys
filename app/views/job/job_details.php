@@ -38,6 +38,19 @@
         .job-details strong {
             font-weight: bold;
         }
+        
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
@@ -74,14 +87,19 @@
                 // Fetch the row
                 $row = $result->fetch_assoc();
                 ?>
-                <div class="job-details">
-                    <h2><?php echo $row['Title']; ?></h2>
-                    <p><strong>Location:</strong> <?php echo $row['Location']; ?></p>
-                    <p><strong>Description:</strong> <?php echo $row['Description']; ?></p>
-                    <p><strong>Qualifications:</strong> <?php echo $row['Qualifications']; ?></p>
-                    <p><strong>Salary:</strong> <?php echo $row['Salary']; ?></p>
-                    <!-- Add more details as needed -->
-                </div>
+               <div class="job-details">
+    <h2><?php echo $row['Title']; ?></h2>
+    <p><strong>Location:</strong> <?php echo $row['Location']; ?></p>
+    <p><strong>Description:</strong> <?php echo $row['Description']; ?></p>
+    <p><strong>Qualifications:</strong> <?php echo $row['Qualifications']; ?></p>
+    <p><strong>Salary:</strong> <?php echo $row['Salary']; ?></p>
+    <!-- Add more details as needed -->
+    <form action="./application.php" method="POST"> <!-- Modified here -->
+        <input type="hidden" name="jobpost_id" value="<?php echo $jobpost_id; ?>"> <!-- Added a hidden input to pass jobpost_id -->
+        <button type="submit">Apply</button>
+    </form>
+</div>
+
             <?php
             } else {
                 echo "<p>No job post found with that ID.</p>";
