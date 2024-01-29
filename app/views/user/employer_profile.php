@@ -179,7 +179,7 @@ $conn->close();
                 <hr>
                 
             </div>
-            <a href="editemployer.php" class="edit-profile-button">Edit Profile</a>
+            <a href="edit_employer.php" class="edit-profile-button">Edit Profile</a>
 
         </div>
     </div>

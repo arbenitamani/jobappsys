@@ -33,7 +33,20 @@ if ($result_user->num_rows > 0) {
 } else {
     // No user data found
     $userData = array(); // Empty array
+    
 }
+
+
+
+
+
+$userID = $_SESSION['UserID'];
+
+$sql = "SELECT u.UserID, u.UserName, u.Email, js.FirstName, js.LastName, js.Phone
+        FROM users u
+        LEFT JOIN jobseekers js ON u.UserID = js.UserID
+        WHERE u.UserID = $userID";
+
 
 // Fetch education data
 $sql_education = "SELECT * FROM education WHERE UserID = $userID";
@@ -130,7 +143,7 @@ $conn->close();
     <div class="profile-container">
       
 
-    <?php include './job_sekeer_navbar.php'; ?>
+   
 
     <div class="all">
          <div class="profile-left">
@@ -178,9 +191,11 @@ $conn->close();
                     echo "<p>No language data available.</p>";
                 } ?>
             </div>
+            <a href="edit_job_seeker.php" class="edit-profile-button">Edit Profile</a>
         </div>
     </div>
        
     </div>
+
 </body>
 </html>
