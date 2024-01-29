@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $location = $_POST['location'] ?? '';
     $salary = $_POST['salary'] ?? '';
     $employerID = $_POST['employerID'] ?? '';
-
+    header("Location: ../job/job_list.php");
     // Check if the EmployerID exists in the employers table
     $checkExistenceStmt = $conn->prepare("SELECT UserID FROM employers WHERE UserID = ?");
     $checkExistenceStmt->bind_param("i", $employerID);

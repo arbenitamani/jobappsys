@@ -106,10 +106,48 @@ $conn->close();
             height: 2px solid black;
         }
      
+        /* Add styles for the navigation bar */
+        nav {
+            background-color: orange;
+            padding: 10px 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        nav ul li {
+            float: right;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            color: black;
+        }
     </style>
 </head>
 <body>
+<nav>
+        <ul>
+            <li><a href="employer_profile.php">My Profile</a></li>
+            <li><a href="createjobpost.php?employerID=<?php echo isset($userData['UserID']) ? $userData['UserID'] : ''; ?>" class="create-jobpost-button">Create Job Post</a></li>
+            
+            <li><a href="../../../index.php">Home</a></li>
+        </ul>
+    </nav>
+
     <div class="profile-container">
+   
         <div class="profile-left"> 
             <img src="../../../images/uprof.png" alt=""> 
         </div>
@@ -124,7 +162,7 @@ $conn->close();
                 <p><strong>Company Name:</strong> <?php echo isset($userData['CompanyName']) ? $userData['CompanyName'] : 'N/A'; ?></p>
                 <p><strong>Industry:</strong> <?php echo isset($userData['Industry']) ? $userData['Industry'] : 'N/A'; ?></p>
                 <hr>
-                <a href="createjobpost.php?employerID=<?php echo isset($userData['UserID']) ? $userData['UserID'] : ''; ?>" class="create-jobpost-button">Create Job Post</a>
+                
             </div>
         </div>
     </div>
