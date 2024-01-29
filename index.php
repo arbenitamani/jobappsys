@@ -134,7 +134,7 @@
                 </div>
                 <div class="home-right">
                        <h1>
-                       WorkWise
+                       WorkWin
                        </h1> 
                        <p>Are you ready to unlock endless opportunities and take your career to new heights? Look no further! Your Career Catalyst is here to empower you on your journey to success. Whether you're a seasoned professional or just starting out, we've got the tools, resources, and job listings tailored to your needs.</p>
                        <button>Find out more</button>
