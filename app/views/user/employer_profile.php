@@ -134,6 +134,21 @@ $conn->close();
         nav ul li a:hover {
             color: black;
         }
+
+.edit-profile-button {
+    display: inline-block;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.edit-profile-button:hover {
+    background-color: #2980b9;
+}
+
     </style>
 </head>
 <body>
@@ -164,6 +179,8 @@ $conn->close();
                 <hr>
                 
             </div>
+            <a href="editemployer.php" class="edit-profile-button">Edit Profile</a>
+
         </div>
     </div>
 </body>
