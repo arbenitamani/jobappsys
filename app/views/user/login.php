@@ -256,7 +256,7 @@ function determineUserType($conn, $userID) {
                 <h1 class="h1">WorkWise</h1>
                 <p class="p">"Connecting Talent with Opportunity"</p>
             </div>
-            <img src="../../../images/job2.jpg" alt="Job Image">
+            <img src="../images/job2.jpg" alt="Job Image">
         </div>
         <div class='login-right'>
             <div class='inner-container'>

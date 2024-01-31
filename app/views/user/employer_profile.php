@@ -164,7 +164,7 @@ $conn->close();
     <div class="profile-container">
    
         <div class="profile-left"> 
-            <img src="../../../images/uprof.png" alt=""> 
+            <img src="../images/uprof.png" alt=""> 
         </div>
         <div class="profile-right">
             <div class="text"> 

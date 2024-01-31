@@ -209,7 +209,7 @@ a:hover {
     <div class="register-container">
         <div class="register-left">
             <div class='text'>
-                <h3>WorkWise</h3>
+                <h3>WorkWin</h3>
                 <p>Join thousands of professionals finding exciting job opportunities.</p>
                 <p>Sign up now to get started!</p>
             </div>
