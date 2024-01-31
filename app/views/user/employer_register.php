@@ -1,52 +1,9 @@
 <?php
-session_start();
-$errorMessage = '';
+require_once '../../controllers/EmployerController.php';
 
-// Database connection parameters
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "jobappdb";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Handle employer registration
-    $companyName = $_POST['companyName'] ?? '';
-    $industry = $_POST['industry'] ?? '';
-    $contactInfo = $_POST['contactInfo'] ?? '';
-
-    // Perform validation as needed
-    if (!empty($companyName) && !empty($industry) && !empty($contactInfo)) {
-        // Prepare and bind the INSERT statement
-        $stmt = $conn->prepare("INSERT INTO employers (UserID, CompanyName, Industry, ContactInfo) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("isss", $_SESSION['UserID'], $companyName, $industry, $contactInfo);
-
-        // Execute the statement
-        if ($stmt->execute() === TRUE) {
-            // Redirect to employer profile upon successful registration
-            header("Location: employer_profile.php");
-            exit(); // Terminate script execution after redirect
-        } else {
-            $errorMessage = "Error: " . $conn->error;
-        }
-
-        // Close statement
-        $stmt->close();
-    } else {
-        $errorMessage = "All fields are required";
-    }
-}
-
-// Close connection
-$conn->close();
+// Define these variables based on your logic in EmployerController.php
+$successMessage = "Registration successful!";
+$errorMessage = "There was an error in registration.";
 ?>
 
 <!DOCTYPE html>
@@ -145,13 +102,13 @@ button:hover {
             </div>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="form-group">
-                    <input placeholder="Company Name" type="text" id="companyName" name="companyName" required>
+                    <input placeholder="Company Name" type="text" id="CompanyName" name="CompanyName" required>
                 </div>
                 <div class="form-group">
-                    <input placeholder="Industry" type="text" id="industry" name="industry" required>
+                    <input placeholder="Industry" type="text" id="Industry" name="Industry" required>
                 </div>
                 <div class="form-group">
-                    <input placeholder="Contact Info" type="text" id="contactInfo" name="contactInfo" required>
+                    <input placeholder="Contact Info" type="text" id="ContactInfo" name="ContactInfo" required>
                 </div>
                 <button type="submit">Register</button>
                 <?php if(isset($successMessage)): ?>
@@ -161,6 +118,7 @@ button:hover {
                     <p class="error-message"><?php echo $errorMessage; ?></p>
                 <?php endif; ?>
             </form>
+
         </div>
     </div>
 </body>

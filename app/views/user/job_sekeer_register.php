@@ -1,54 +1,5 @@
 <?php
-session_start();
-$errorMessage = '';
-
-// Database connection parameters
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "jobappdb";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Handle job seeker registration
-    $firstName = $_POST['firstName'] ?? '';
-    $lastName = $_POST['lastName'] ?? '';
-    $phone = $_POST['phone'] ?? '';
-    // Handle resume file upload if needed
-
-    // Perform validation as needed
-    if (!empty($firstName) && !empty($lastName) && !empty($phone)) {
-        // Prepare and bind the INSERT statement
-        $stmt = $conn->prepare("INSERT INTO jobseekers (UserID, FirstName, LastName, Phone) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("isss", $_SESSION['UserID'], $firstName, $lastName, $phone);
-
-        // Execute the statement
-        if ($stmt->execute() === TRUE) {
-            $successMessage = "Job Seeker registered successfully";
-            // Redirect to choose_profile.php
-            header("Location: education_register.php");
-            exit(); // Terminate the script after redirection
-        } else {
-            $errorMessage = "Error: " . $conn->error;
-        }
-
-        // Close statement
-        $stmt->close();
-    } else {
-        $errorMessage = "All fields are required";
-    }
-}
-
-// Close connection
-$conn->close();
+require_once '../../controllers/JobSeekerController.php';
 ?>
 
 <!DOCTYPE html>

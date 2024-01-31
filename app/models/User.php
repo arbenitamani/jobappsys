@@ -1,15 +1,19 @@
-<!-- models/User.php  -->
-<?php class User {
-    public $UserID;
-    public $UserName;
-    public $Email;
-    public $Password;
+<?php
 
-    public function __construct($UserID, $UserName, $Email, $Password) {
-        $this->UserID = $UserID;
-        $this->UserName = $UserName;
-        $this->Email = $Email;
-        $this->Password = $Password;
+class User
+{
+    private $conn;
+
+    public function __construct($conn)
+    {
+        $this->conn = $conn;
     }
 
+    public function register($username, $email, $password)
+    {
+        
+    }
+    
 }
+
+?>
