@@ -116,7 +116,7 @@
 </head>
 <body>
 <div class="navbar">
-        <img src="images/logo.svg" alt='Logo' />
+        <img src="./app/views/images/logo.svg" alt='Logo' />
         <ul>
             <li>
                 <a href="./app/views/user/login.php">Login</a>
@@ -130,7 +130,7 @@
     <div class="home-wrapper">
             <div class="home-all">
                 <div class="home-left">
-                    <img src="images/job5.jpg" alt="" />
+                    <img src="./app/views/images/job5.jpg" alt="" />
                 </div>
                 <div class="home-right">
                        <h1>
