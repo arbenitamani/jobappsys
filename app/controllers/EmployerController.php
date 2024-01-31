@@ -3,24 +3,24 @@ session_start();
 
 // Include necessary files
 require_once '../../models/config/database.php';
-require_once '../../models/JobSeekerModel.php';
+require_once '../../models/EmployerModel.php';
 
 // Create a database connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Handle job seeker registration
-    $firstName = $_POST['firstName'] ?? '';
-    $lastName = $_POST['lastName'] ?? '';
-    $phone = $_POST['phone'] ?? '';
+    // Handle employer registration
+    $companyName = $_POST['CompanyName'] ?? '';
+    $industry = $_POST['Industry'] ?? '';
+    $contactInfo = $_POST['ContactInfo'] ?? '';
 
     // Perform validation as needed
-    if (!empty($firstName) && !empty($lastName) && !empty($phone)) {
-        
+    if (!empty($companyName) && !empty($industry) && !empty($contactInfo)) {
+
         // Check if the user ID is set in the session
         if (isset($_SESSION['UserID'])) {
-            // User ID is set, proceed with the job seeker registration
+            // User ID is set, proceed with the employer registration
 
             // Check if the user is already registered
             $checkStmt = $conn->prepare("SELECT UserID FROM users WHERE UserID = ?");
@@ -28,24 +28,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $checkStmt->execute();
             $checkStmt->store_result();
 
-            // Rest of the code for checking and registering job seeker
+            // Rest of the code for checking and registering employer
             if ($checkStmt->num_rows > 0) {
-                // Fetch user ID and proceed to register job seeker
+                // Fetch user ID and proceed to register employer
                 $checkStmt->bind_result($userID);
                 $checkStmt->fetch();
 
-                // User already exists, proceed to register job seeker
-                $jobSeekerModel = new JobSeeker($conn);
-                $errorMessage = $jobSeekerModel->registerJobSeeker($firstName, $lastName, $phone, $userID);
+                // User already exists, proceed to register employer
+                $employerModel = new Employer($conn);
+                $errorMessage = $employerModel->registerEmployer($userID, $companyName, $industry, $contactInfo);
 
                 if ($errorMessage === true) {
                     // Registration successful, perform additional actions if needed
                     $_SESSION['UserID'] = $userID; // Use the existing user ID
-                    header("Location: ../../views/user/job_seeker_profile.php");
+                    header("Location: ../../views/user/employer_profile.php");
                     exit();
                 } else {
                     // Registration failed, redirect with error message
-                    header("Location: job_seeker_registration.php?error=" . urlencode($errorMessage));
+                    header("Location: employer_registration.php?error=" . urlencode($errorMessage));
                     exit();
                 }
             } else {
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         $errorMessage = "All fields are required"; // Validation failed
-        header("Location: job_seeker_registration.php?error=" . urlencode($errorMessage));
+        header("Location: employer_registration.php?error=" . urlencode($errorMessage));
         exit();
     }
 }

@@ -2,28 +2,15 @@
 require_once '../../controllers/user_register_controller.php';
 ?>
 
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Meta tags, title, and CSS styles -->
-</head>
-<body>
-    <!-- HTML content -->
-</body>
-</html>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration</title>
-    <!-- Add your CSS styles here -->
+   
     <style>
-        /* Add your CSS styles here */
+
         .register-container {
             display: flex;
     justify-content: center;

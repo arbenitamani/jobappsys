@@ -1,18 +1,49 @@
 <?php
-require_once 'User.php'; // Adjust the path if needed
+require_once 'User.php';
 
-class Admin  {
-    protected $FirstName;
-    protected $LastName;
-    protected $Department;
+class AdminModel extends User {
+    private $conn;
 
-    public function __construct($UserID, $UserName, $Email, $Password, $FirstName, $LastName, $Department) {
-        parent::__construct($UserID, $UserName, $Email, $Password);
-        $this->FirstName = $FirstName;
-        $this->LastName = $LastName;
-        $this->Department = $Department;
+    public function __construct($conn) {
+        $this->conn = $conn;
     }
 
-    // Additional methods specific to Admin
+    public function getUsers() {
+        $sql = "SELECT * FROM users";
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $users = [];
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row;
+            }
+            return $users;
+        } else {
+            return [];
+        }
+    }
+
+    public function deleteUser($id) {
+        $sql = "DELETE FROM users WHERE UserID=$id";
+        return $this->conn->query($sql);
+    }
+
+    public function updateUser($id, $field, $value) {
+        $sql = "UPDATE users SET $field='$value' WHERE UserID=$id";
+        return $this->conn->query($sql);
+    }
+
+    public function createUser($new_username, $new_email) {
+        $sql = "INSERT INTO users (UserName, Email) VALUES ('$new_username', '$new_email')";
+        $result = $this->conn->query($sql);
+
+        if ($result) {
+            $last_id = $this->conn->insert_id;
+            $new_user = array("UserID" => $last_id, "UserName" => $new_username, "Email" => $new_email);
+            return $new_user;
+        } else {
+            return false;
+        }
+    }
 }
 ?>

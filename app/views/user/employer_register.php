@@ -1,9 +1,5 @@
 <?php
 require_once '../../controllers/EmployerController.php';
-
-// Define these variables based on your logic in EmployerController.php
-$successMessage = "Registration successful!";
-$errorMessage = "There was an error in registration.";
 ?>
 
 <!DOCTYPE html>

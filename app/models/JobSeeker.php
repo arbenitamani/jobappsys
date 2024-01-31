@@ -1,12 +1,21 @@
 <?php
 require_once 'User.php';
 
-class JobSeeker {
-    private $conn;
-
-    public function __construct($conn) {
-        $this->conn = $conn;
-    }
+class JobSeeker extends User {
+    
+        private $conn;
+        private $userID;
+        private $firstName;
+        private $lastName;
+        private $phone;
+        private $resume;
+    
+        public function __construct($conn)
+        {
+            parent::__construct($conn);
+            $this->conn = $conn;
+        }
+    
 
     public function registerJobSeeker($firstName, $lastName, $phone, $userID) {
         // Check if the user with the provided UserID exists in the users table
@@ -44,4 +53,5 @@ class JobSeeker {
     // Add other methods related to job seekers as needed...
 
 }
+
 ?>

@@ -1,23 +1,23 @@
 <?php
 require_once 'User.php';
-
-// EmployerModel.php
-
-class Employer {
-    private $conn; // Define the $conn property
-
-    // Constructor to initialize the $conn property
-    public function __construct($conn) {
-        $this->conn = $conn;
-    }
-
-    // Other methods of the Employer class...
+    class Employer extends User
+    {
+        private $conn;
+        private $userID;
+        private $companyName;
+        private $industry;
+        private $contactInfo;
     
-    // Method to register an employer
-    public function registerEmployer($userID, $companyName, $industry, $contactInfo) {
-        // Use $this->conn to access the database connection
+        public function __construct($conn)
+        {
+            parent::__construct($conn);
+            $this->conn = $conn;
+        }
 
-        // Example: Prepare and execute a SQL statement
+    
+    public function registerEmployer($userID, $companyName, $industry, $contactInfo) {
+    
+
         $stmt = $this->conn->prepare("INSERT INTO employers (UserID, CompanyName, Industry, ContactInfo) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("isss", $userID, $companyName, $industry, $contactInfo);
         
@@ -33,7 +33,7 @@ class Employer {
         }
     }
 
-    // Other methods of the Employer class...
+    
 }
 
 ?>
