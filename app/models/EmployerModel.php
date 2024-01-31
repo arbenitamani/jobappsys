@@ -7,7 +7,6 @@ require_once 'User.php';
         private $companyName;
         private $industry;
         private $contactInfo;
-    
         public function __construct($conn)
         {
             parent::__construct($conn);
@@ -15,23 +14,24 @@ require_once 'User.php';
         }
 
     
-    public function registerEmployer($userID, $companyName, $industry, $contactInfo) {
-    
-
-        $stmt = $this->conn->prepare("INSERT INTO employers (UserID, CompanyName, Industry, ContactInfo) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("isss", $userID, $companyName, $industry, $contactInfo);
-        
-        // Execute the statement
-        if ($stmt->execute()) {
-            // Registration successful
-            $stmt->close();
-            return true;
-        } else {
-            // Registration failed
-            $stmt->close();
-            return "Error during registration: " . $stmt->error;
+        public function registerEmployer($userID, $companyName, $industry, $contactInfo)
+        {
+            $stmt = $this->conn->prepare("INSERT INTO employers (UserID, CompanyName, Industry, ContactInfo) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("isss", $userID, $companyName, $industry, $contactInfo);
+            
+            // Execute the statement
+            if ($stmt->execute()) {
+                // Registration successful
+                $stmt->close();
+                return true;
+            } else {
+                // Registration failed
+                $errorMessage = "Error during registration: " . $stmt->error;
+                $stmt->close();
+                return $errorMessage;
+            }
         }
-    }
+        
 
     
 }

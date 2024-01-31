@@ -1,9 +1,10 @@
-<?php
+<?php 
 session_start();
 
 // Include necessary files
 require_once '../../models/config/database.php';
 require_once '../../models/EmployerModel.php';
+require_once '../../models/UserService.php'; 
 
 // Create a database connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -15,9 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $industry = $_POST['Industry'] ?? '';
     $contactInfo = $_POST['ContactInfo'] ?? '';
 
+    // Define userData array
+    $userData = array(
+        'CompanyName' => $companyName,
+        'Industry' => $industry,
+        'ContactInfo' => $contactInfo
+    );
+
     // Perform validation as needed
     if (!empty($companyName) && !empty($industry) && !empty($contactInfo)) {
-
         // Check if the user ID is set in the session
         if (isset($_SESSION['UserID'])) {
             // User ID is set, proceed with the employer registration
@@ -35,7 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $checkStmt->fetch();
 
                 // User already exists, proceed to register employer
-                $employerModel = new Employer($conn);
+                $userService = new UserService();
+                $employerModel = $userService->createUser('employer', $conn, $userData);
+
                 $errorMessage = $employerModel->registerEmployer($userID, $companyName, $industry, $contactInfo);
 
                 if ($errorMessage === true) {

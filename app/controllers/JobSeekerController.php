@@ -36,7 +36,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $checkStmt->fetch();
 
                 // User already exists, proceed to register job seeker
-                $jobSeekerModel = new JobSeeker($conn);
+                // Replace this line:
+// $jobSeekerModel = new JobSeeker($conn);
+// with:
+                  $jobSeekerModel = UserService::createUser('jobseeker', $conn, $userData);
+
                 $errorMessage = $jobSeekerModel->registerJobSeeker($firstName, $lastName, $phone, $userID);
 
                 if ($errorMessage === true) {
