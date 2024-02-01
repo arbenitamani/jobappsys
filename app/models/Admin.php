@@ -1,49 +1,28 @@
 <?php
-require_once 'User.php';
+class Admin {
+    public function showUsers($users) {
+        echo "<table class='tableusers' border='1'>
+            <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>";
 
-class AdminModel extends User {
-    private $conn;
-
-    public function __construct($conn) {
-        $this->conn = $conn;
-    }
-
-    public function getUsers() {
-        $sql = "SELECT * FROM users";
-        $result = $this->conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            $users = [];
-            while ($row = $result->fetch_assoc()) {
-                $users[] = $row;
+        if (!empty($users)) {
+            foreach ($users as $user) {
+                echo "<tr>
+                    <td>{$user['UserID']}</td>
+                    <td>{$user['UserName']}</td>
+                    <td>{$user['Email']}</td>
+                    <td><a href='?action=edit&id={$user['UserID']}'>Edit</a> | <a href='?action=delete&id={$user['UserID']}' onclick='return confirm(\"Are you sure you want to delete this user?\")'>Delete</a></td>
+                </tr>";
             }
-            return $users;
         } else {
-            return [];
+            echo "<tr><td colspan='4'>No users found</td></tr>";
         }
-    }
 
-    public function deleteUser($id) {
-        $sql = "DELETE FROM users WHERE UserID=$id";
-        return $this->conn->query($sql);
-    }
-
-    public function updateUser($id, $field, $value) {
-        $sql = "UPDATE users SET $field='$value' WHERE UserID=$id";
-        return $this->conn->query($sql);
-    }
-
-    public function createUser($new_username, $new_email) {
-        $sql = "INSERT INTO users (UserName, Email) VALUES ('$new_username', '$new_email')";
-        $result = $this->conn->query($sql);
-
-        if ($result) {
-            $last_id = $this->conn->insert_id;
-            $new_user = array("UserID" => $last_id, "UserName" => $new_username, "Email" => $new_email);
-            return $new_user;
-        } else {
-            return false;
-        }
+        echo "</table>";
     }
 }
 ?>
