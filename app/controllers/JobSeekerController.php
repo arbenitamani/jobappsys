@@ -5,6 +5,7 @@ session_start();
 // Include necessary files
 require_once '../../models/config/database.php';
 require_once '../../models/JobSeeker.php';
+require_once '../../models/UserService.php';
 
 // Create a database connection
 $conn = new mysqli($servername, $username, $password, $dbname);

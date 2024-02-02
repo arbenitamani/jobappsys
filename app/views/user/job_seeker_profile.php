@@ -141,9 +141,11 @@ $conn->close();
 </head>
 <body>
     <div class="profile-container">
-      
+    
+    <?php
 
-   
+include '../../views/user/job_sekeer_navbar.php';
+?>
 
     <div class="all">
          <div class="profile-left">
