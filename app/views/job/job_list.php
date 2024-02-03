@@ -1,3 +1,43 @@
+<?php
+
+class DatabaseConnection {
+    private static $instance;
+    private $connection;
+
+    // Private constructor to prevent direct instantiation
+    private function __construct() {
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "jobappdb";
+
+        $this->connection = new mysqli($servername, $username, $password, $dbname);
+
+        // Check connection
+        if ($this->connection->connect_error) {
+            die("Lidhja deshtoi" . $this->connection->connect_error);
+        }
+    }
+
+    // Get the singleton instance of the database connection
+    public static function getInstance() {
+        if (!self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    // Get the database connection
+    public function getConnection() {
+        return $this->connection;
+    }
+}
+
+// Lazy initialization of database connection
+$conn = DatabaseConnection::getInstance()->getConnection();
+
+// Continue with your existing code below this line...
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,35 +63,6 @@
 
         <div class="jobs">
             <?php
-            // Define the bubble sort function
-            function bubbleSort(&$arr) {
-                $n = count($arr);
-                for ($i = 0; $i < $n - 1; $i++) {
-                    for ($j = 0; $j < $n - $i - 1; $j++) {
-                        if (strcasecmp($arr[$j], $arr[$j + 1]) > 0) {
-                            // Swap $arr[$j] and $arr[$j+1]
-                            $temp = $arr[$j];
-                            $arr[$j] = $arr[$j + 1];
-                            $arr[$j + 1] = $temp;
-                        }
-                    }
-                }
-            }
-
-            // Database connection parameters
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "jobappdb";
-
-            // Create connection
-            $conn = new mysqli($servername, $username, $password, $dbname);
-
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-
             // Check if search or sorting option is selected
             $search_query = isset($_GET['search_query']) ? $_GET['search_query'] : '';
             $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
@@ -130,6 +141,21 @@
 
             // Close connection
             $conn->close();
+
+            // Define the bubble sort function
+            function bubbleSort(&$arr) {
+                $n = count($arr);
+                for ($i = 0; $i < $n - 1; $i++) {
+                    for ($j = 0; $j < $n - $i - 1; $j++) {
+                        if (strcasecmp($arr[$j], $arr[$j + 1]) > 0) {
+                            // Swap $arr[$j] and $arr[$j+1]
+                            $temp = $arr[$j];
+                            $arr[$j] = $arr[$j + 1];
+                            $arr[$j + 1] = $temp;
+                        }
+                    }
+                }
+            }
             ?>
         </div>
     </div>
